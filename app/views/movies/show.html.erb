@@ -1,17 +1,22 @@
 <div class="large-3 small-12 column">
   <%=image_tag @movie.poster%>
+  <br><br><br>
+  <%if (current_user.purchase? @movie) && (Review.where(user_id: current_user, movie_id: @movie.id).count == 0) %>
+      <%= link_to 'Write a review', new_review_path(:movie => @movie.id), class: 'button' %>
+  <% end %>
 </div>
 <div class="large-9 small-12 column">
   <h3>
     <%= @movie.title %>
     (<%= @movie.release_year %>)
     <%=link_to @movie.imdb do%>
-      <%=image_tag asset_path("imdb_logo.png")%>
+      <%=image_tag "imdb_logo.png" %>
     <%end%>
   </h3>
 
     <p class="label movie-label radius mb1">
       <%= (current_user && current_user.purchase?(@movie)) ? "Purchased" : "$#{@movie.price}" %>
+      <div class="right"><%= @rating == 0 ? 'Not rated' : 'Rated as ' << @rating.to_s << '/5' %></div>
     </p>
 
   <p><%= @movie.description %></p>
@@ -27,5 +32,18 @@
         <span><%=@cart_action%></span> Cart
       <%end%>
     <%end%>
+      <%if @reviews.count != 0 %>
+          <h3>User Reviews</h3>
+          <div>
+            <% @reviews.each do |review| %>
+                <div data-equalizer="" class="cart-movie large-12 mt1" style="overflow: auto">
+                  <div class="column glassy-bg" data-equalizer-watch="" style="height: 150px;">
+                    <h5 class=""><%= review.title %> <small><%= review.rating %>/5</small> <p class="right">by <%= User.find(review.user_id).email %></p></h5><br>
+                    <p class="scale ptm"> <%= review.description %></p>
+                  </div>
+                </div>
+            <% end %>
+          </div>
+      <% end %>
   <%end%>
 </div>

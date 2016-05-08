@@ -15,7 +15,7 @@
               <%= (current_user && current_user.purchase?(movie)) ? "Purchased" : "$#{movie.price}" %>
             </p>
             <%= link_to movie.imdb, class: "right" do %>
-              <%= image_tag asset_path("imdb_logo.png") %>
+              <%= image_tag "imdb_logo.png" %>
             <% end %>
           </div>
         </div>

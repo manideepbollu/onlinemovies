@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :reviews
   # Root page
   root 'movies#index'
 

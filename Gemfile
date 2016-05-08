@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.1.5'
 
 gem 'rails', '~> 4.1.4'
 gem 'uglifier', '~> 2.5.3'
@@ -28,3 +29,9 @@ gem 'hiredis', '~> 0.4.5' # Redis driver
 gem 'braintree', '~> 2.33.1'
 gem 'figaro', '~> 0.7.0' # Environment variables
 gem 'gon', '~> 5.1.2' # Passing Rails variables to JS
+
+# Production gems
+group :production do
+  gem 'pg',             '0.18.4'
+  gem 'rails_12factor', '0.0.3'
+end
