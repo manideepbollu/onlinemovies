@@ -32,6 +32,6 @@ gem 'gon', '~> 5.1.2' # Passing Rails variables to JS
 
 # Production gems
 group :production do
-  gem 'pg',             '0.18.4'
+  gem 'mysql2','~> 0.3.16'
   gem 'rails_12factor', '0.0.3'
 end
