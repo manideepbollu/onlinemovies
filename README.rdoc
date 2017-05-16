@@ -1,5 +1,7 @@
 == online movies - Software engineering project
 
+This project is based on a Rails implementation by {Azzurrio}[https://github.com/manideepbollu/onlinemovies/commits/master?author=Azzurrio] and {Wazery}[https://github.com/manideepbollu/onlinemovies/commits/master?author=wazery]. My sincere thanks to them.
+
 === Abstract
 
 The purpose of this report is to demonstrate the online movie store which we built as part of our Software Engineering project. This project is developed on Ruby on Rails and uses various modules i.e. gems such as Foundation, Braintree and Redis. We will also explain on how to deploy this project on any linux based operating system.
