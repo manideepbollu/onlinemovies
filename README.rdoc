@@ -1,28 +1,106 @@
-== README
+== online movies - Software engineering project
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+=== Abstract
 
-Things you may want to cover:
+The purpose of this report is to demonstrate the online movie store which we built as part of our Software Engineering project. This project is developed on Ruby on Rails and uses various modules i.e. gems such as Foundation, Braintree and Redis. We will also explain on how to deploy this project on any linux based operating system.
 
-* Ruby version
+=== Quick Snapshot
+https://cloud.githubusercontent.com/assets/2060080/26084735/fa799aee-39a3-11e7-8b15-fac201928e74.png
 
-* System dependencies
+=== Introduction to application
 
-* Configuration
+Rails is a web application development framework written in the Ruby language. It is designed to make programming web applications easier by making assumptions about what every developer needs to get started. It allows you to write less code while accomplishing more than many other languages and frameworks. Experienced Rails developers also report that it makes web application development more fun.
 
-* Database creation
+Rails is opinionated software. It makes the assumption that there is the "best" way to do things, and it's designed to encourage that way - and in some cases to discourage alternatives. If you learn "The Rails Way" you'll probably discover a tremendous increase in productivity. If you persist in bringing old habits from other languages to your Rails development, and trying to use patterns you learned elsewhere, you may have a less happy experience.
 
-* Database initialization
+The Rails philosophy includes two major guiding principles:
 
-* How to run the test suite
+DRY - "Don't Repeat Yourself" - suggests that writing the same code over and over again is a bad thing.
+Convention Over Configuration - means that Rails makes assumptions about what you want to do and how you're going to do it, rather than requiring you to specify every little thing through endless configuration files.
 
-* Services (job queues, cache servers, search engines, etc.)
+=== Brain-Tree Integration
 
-* Deployment instructions
+Machine Learning is a type of artificial intelligence (AI) that provides computers with the ability to learn without being explicitly programmed. Machine learning focuses on the development of computer programs that can teach themselves to grow and change when exposed to new data.
 
-* ...
+The Braintree JavaScript SDK has several ways for you to collect customer payment information. The easiest way to get up and running is via the Drop-in UI. For other integrations, please see the JS SDK Overview.
+
+https://cloud.githubusercontent.com/assets/2060080/26085055/d360cf9c-39a6-11e7-8363-3f7b3d38aa2e.png
+
+Braintree's v.zero consists of complementary client and server SDKs:
+* The client SDK enables you to collect payment method (e.g. credit card, PayPal) details
+* The server SDKs manage all requests to the Braintree gateway
+* Before we get started, there are two key concepts to introduce—the client token and the payment method nonce.
+* Our app or web front-end requests a client token from your server in order to initialize the client SDK
+* Our server generates and sends a client token back to your client with the server SDK
+* Once the client SDK is initialized and the customer has submitted payment information, the SDK communicates that information to Braintree, which returns a payment method nonce
+* We then send the payment nonce to your server
+* Our server code receives the payment method nonce from your client and then uses the server SDK to create a transaction or perform other Braintree functions detailed in the guides
+
+=== Introduction to Redis
+
+SVMs are widely used in many real-world applications. Few of the important applications can be listed as below:
+Redis is an open source (BSD licensed), in-memory data structure store, used as database, cache and message broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps,hyperloglogs and geospatial indexes with radius queries. Redis has built-in replication, Lua scripting, LRU eviction,transactions and different levels of on-disk persistence, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.
+You can run atomic operations on these types, like appending to a string; incrementing the value in a hash; pushing an element to a list; computing set intersection, union and difference; or getting the member with highest ranking in a sorted set.
+In order to achieve its outstanding performance, Redis works with an in-memory dataset. Depending on your use case, you can persist it either by dumping the dataset to disk every once in a while, or by appending each command to a log. Persistence can be optionally disabled, if you just need a feature-rich, networked, in-memory cache.
+Redis also supports trivial-to-setup master-slave asynchronous replication, with very fast non-blocking first synchronization, auto-reconnection with partial resynchronization on net split.
+
+Other features include:
+* Transactions
+* Pub/Sub
+* Lua scripting
+* Keys with a limited time-to-live
+* LRU eviction of keys
+* Automatic failover
+
+You can use Redis from most programming languages out there. Redis is written in ANSI C and works in most POSIX systems like Linux, *BSD, OS X without external dependencies. Linux and OS X are the two operating systems where Redis is developed and more tested, and we recommend using Linux for deploying. Redis may work in Solaris-derived systems like SmartOS, but the support is best effort. There is no official support for Windows builds, but Microsoft develops and maintains a Win-64 port of Redis.
+
+=== Relational diagram of various models/tables in the app
+
+https://cloud.githubusercontent.com/assets/2060080/26085060/e634efea-39a6-11e7-9777-c81a895d0d53.png
+
+=== Deployment
+
+All the instructions are for Mac OSX. Installing Rails is as simple as running the following command in your Terminal:
+
+<tt>geminstall rails -v 4.2.6
+rbenv rehash
+rails -v
+# Rails 4.2.6</tt>
+
+*Setting up the database:*
+
+Rails ships with sqlite3 as the default database. Chances are you won't want to use it because it's stored as a simple file on disk. You'll probably want something more robust like MySQL or PostgreSQL.
+
+There is a lot of documentation on both, so you can just pick one that seems like you'll be more comfortable with. If you're coming from PHP, you may already be familiar with MySQL. If you're new to databases, I'd suggest skipping to setting up PostgreSQL.
+You can install MySQL server and client from Homebrew:
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+<tt>brew install mysql
+# To have launchd start mysql at login:
+ln -sfv /usr/local/opt/mysql/*plist ~/Library/LaunchAgents
+# Then to load mysql now:
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</tt>
+
+*Installing Redis:*
+
+<tt>brew install redis</tt>
+
+*Setting up the app:*
+
+Please extract the app from the zip which we provided and paste in your workspace (wherever you prefer to use/develop the app from). Go to the root folder of the app, then execute below series of commands.
+
+<tt># Install dependancies
+bundle install –without production
+# Migrate the Database (MYSQL should be running at this time).
+rake db:migrate
+# Rake Tests (Integrate and unit tests)
+rake test:integrate
+rake test:unit
+If the above tests are successful, you have setup your app successfully.
+# In order to start the app, we need to start Redis as well as Rails Server.
+redis-server
+rails server
+# Now your application is ready and running on your localhost. You can check the app from the browser with url http://localhost:3000</tt>
+
+However, we have deployed our app on to a production server i.e. heroku. You could have a look at it:
+https://onlinemovies.herokuapp.com/
